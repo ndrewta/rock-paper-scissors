@@ -12,10 +12,10 @@ function getComputerChoice() {
 
 function playerSelection() {
     const input = prompt("Rock, paper or scissors?", "")
-    if (input != null) {
-        const storeInput = input.toLowerCase()
+    const choice = input.toLowerCase()
+    if (choice == "rock" || choice == "paper" || choice == "scissors") {
+        return choice
+    }   else {
+        return false
     }
-    console.log(storeInput)
 }
-
-playerSelection()
