@@ -10,9 +10,8 @@ function getComputerChoice() {
     }
 }
 
-function playerSelection() {
-    const input = prompt("Rock, paper or scissors?", "")
-    const choice = input.toLowerCase()
+function playerSelection(selection) {
+    const choice = selection
     if (choice == "rock" || choice == "paper" || choice == "scissors") {
         return choice
     }   else {
@@ -79,5 +78,6 @@ function game() {
     }
 }
 
+const buttons = document.querySelectorAll('button')
+buttons.forEach((button) => button.addEventListener('click', (e) => console.log(playRound(playerSelection(e.target.id), getComputerChoice()))))
 
-game()
