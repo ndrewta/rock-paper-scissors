@@ -29,55 +29,89 @@ function playRound(playerSelection, computerSelection) {
     let message
     if (player) {
         if (player == "rock" && computer == "scissors") {
-            return message = "You win! Rock beats scissors."
+            message = "You win! Rock beats scissors."
         } else if (player == "rock" && computer == "paper") {
-            return message = "You lose! Paper beats rock."
+            message = "You lose! Paper beats rock."
         } else if (player == "paper" && computer == "rock") {
-            return message = "You win! Paper beats rock."
+            message = "You win! Paper beats rock."
         } else if (player == "paper" && computer == "scissors") {
-            return message = "You lose! Scissors beat paper."
+            message = "You lose! Scissors beat paper."
         } else if (player == "scissors" && computer == "paper") {
-            return message = "You win! Scissors beat paper."
+            message = "You win! Scissors beat paper."
         } else if (player == "scissors" && computer == "rock") {
-            return message = "You lose! Rock beats scissors."
+            message = "You lose! Rock beats scissors."
         } else {
-            return message = "It's a tie! Go again."
-        }
+            message = "It's a tie! Go again."
+        } checkScore(message)
     } else {
-        console.log("Your choice is invalid.")
-        return false
+        message = ("Your choice is invalid.")
+        checkScore(message)
     }
   }
 
-function game() {
-    let scorePlayer = 0
-    let scoreComputer = 0
-    let message
-    for (let i = 0; i < 5; i++) {
-        message = playRound(playerSelection(), computerSelection())
-        if (message) {
-            if (message.includes("You win")) {
-                scorePlayer += 1
-                console.log(message)
-            } else if (message.includes("You lose")) {
-                scoreComputer += 1
-                console.log(message)
-            }
-            else if (message.includes("tie")) {
-                i--
-                console.log(message)
-            }
-        } else {
-            i--
+function checkScore(message) {
+    if (message) {
+        if (message.includes("You win")) {
+            scorePlayer += 1
+            playerTrackScore.textContent = `Player: ${scorePlayer}`
+            result.textContent = message
+        } else if (message.includes("You lose")) {
+            scoreComputer += 1
+            computerTrackScore.textContent = `Computer: ${scoreComputer}`
+            result.textContent = message
+            
         }
-    }
-    if (scorePlayer > scoreComputer) { 
-        console.log(`Your final score is ${scorePlayer}. Computer's final score is ${scoreComputer}. You win!`)
-    } else {
-        console.log(`Your final score is ${scorePlayer}. Computer's final score is ${scoreComputer}. You lose!`)
+        else if (message.includes("tie")) {
+            result.textContent = message
+        }
+    };
+    if (scorePlayer == 5 || scoreComputer == 5) {
+        if (scorePlayer > scoreComputer) { 
+            result.textContent = (`Your final score is ${scorePlayer}. Computer's final score is ${scoreComputer}. You win!`)
+            disableButtons()
+        } else {
+            result.textContent = (`Your final score is ${scorePlayer}. Computer's final score is ${scoreComputer}. You lose!`)
+            disableButtons()
+        }
     }
 }
 
-const buttons = document.querySelectorAll('button')
-buttons.forEach((button) => button.addEventListener('click', (e) => console.log(playRound(playerSelection(e.target.id), getComputerChoice()))))
 
+
+function setUp() {
+    enableButtons()
+
+}
+
+function enableButtons() {
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach((button) => button.addEventListener('click', buttonFunctions))
+}
+
+function disableButtons() {
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach((button) => button.removeEventListener('click', buttonFunctions))
+}
+
+let scorePlayer = 0
+let scoreComputer = 0
+const buttonFunctions = (e) => playRound(playerSelection(e.target.id), getComputerChoice())
+
+containerNode = document.querySelector('#container')
+const result = document.createElement('div')
+result.setAttribute('style', 'color: black; font-size: 40px')
+result.setAttribute('id', 'result')
+result.textContent = "Rock, paper or scissors?"
+containerNode.appendChild(result)
+
+const trackScore = document.createElement('div')
+trackScore.setAttribute('id', 'trackScore')
+containerNode.appendChild(trackScore)
+const playerTrackScore = document.createElement('p')
+playerTrackScore.textContent = "Player: 0"
+trackScore.appendChild(playerTrackScore)
+const computerTrackScore = document.createElement('p')
+computerTrackScore.textContent = "Computer: 0"
+trackScore.appendChild(computerTrackScore)
+
+setUp()
