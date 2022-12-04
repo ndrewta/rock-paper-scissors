@@ -10,19 +10,6 @@ function getComputerChoice() {
     }
 }
 
-function playerSelection(selection) {
-    const choice = selection
-    if (choice == "rock" || choice == "paper" || choice == "scissors") {
-        return choice
-    }   else {
-        return false
-    }
-}
-
-function computerSelection() {
-    return getComputerChoice()
-}
-
 function playRound(playerSelection, computerSelection) {
     const player = playerSelection
     const computer = computerSelection
@@ -76,28 +63,39 @@ function checkScore(message) {
     }
 }
 
-
-
 function setUp() {
     enableButtons()
+    scorePlayer = 0
+    scoreComputer = 0
+    result.textContent = "Rock, paper or scissors?"
+    playerTrackScore.textContent = `Player: ${scorePlayer}`
+    computerTrackScore.textContent = `Computer: ${scoreComputer}`
 
 }
 
+
 function enableButtons() {
+    btnNode.replaceChildren(btnRock, btnPaper, btnScissors)
     const buttons = document.querySelectorAll('button')
     buttons.forEach((button) => button.addEventListener('click', buttonFunctions))
+
 }
 
 function disableButtons() {
     const buttons = document.querySelectorAll('button')
     buttons.forEach((button) => button.removeEventListener('click', buttonFunctions))
+    const btnNode = document.querySelector('.buttons')
+    btnNode.replaceChildren(resetBtn)
+    resetBtn.addEventListener('click', setUp)
+
 }
 
 let scorePlayer = 0
 let scoreComputer = 0
-const buttonFunctions = (e) => playRound(playerSelection(e.target.id), getComputerChoice())
+const buttonFunctions = (e) => playRound(e.target.id, getComputerChoice())
 
 containerNode = document.querySelector('#container')
+
 const result = document.createElement('div')
 result.setAttribute('style', 'color: black; font-size: 40px')
 result.setAttribute('id', 'result')
@@ -108,10 +106,32 @@ const trackScore = document.createElement('div')
 trackScore.setAttribute('id', 'trackScore')
 containerNode.appendChild(trackScore)
 const playerTrackScore = document.createElement('p')
-playerTrackScore.textContent = "Player: 0"
+playerTrackScore.textContent = `Player: ${scorePlayer}`
 trackScore.appendChild(playerTrackScore)
 const computerTrackScore = document.createElement('p')
-computerTrackScore.textContent = "Computer: 0"
+computerTrackScore.textContent = `Computer: ${scoreComputer}`
 trackScore.appendChild(computerTrackScore)
+
+const btnNode = document.createElement('div')
+btnNode.setAttribute('class', 'buttons')
+containerNode.appendChild(btnNode)
+
+const resetBtn = document.createElement('button')
+resetBtn.setAttribute('id', 'reset')
+resetBtn.textContent = "Restart Game"
+
+const btnRock = document.createElement('button')
+btnRock.setAttribute('id', 'rock')
+btnRock.textContent = 'Rock'
+
+const btnPaper = document.createElement('button')
+btnPaper.setAttribute('id', 'paper')
+btnPaper.textContent = 'Paper'
+
+const btnScissors = document.createElement('button')
+btnScissors.setAttribute('id', 'scissors')
+btnScissors.textContent = 'Scissors'
+
+
 
 setUp()
