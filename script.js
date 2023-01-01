@@ -1,3 +1,7 @@
+let scorePlayer = 0
+let scoreComputer = 0
+
+
 function getComputerChoice() {
     let choice
     randomChoice = Math.floor(Math.random() * 3)
@@ -90,8 +94,7 @@ function disableButtons() {
 
 }
 
-let scorePlayer = 0
-let scoreComputer = 0
+
 const buttonFunctions = (e) => playRound(e.target.id, getComputerChoice())
 
 containerNode = document.querySelector('#container')
@@ -131,7 +134,5 @@ btnPaper.textContent = 'Paper'
 const btnScissors = document.createElement('button')
 btnScissors.setAttribute('id', 'scissors')
 btnScissors.textContent = 'Scissors'
-
-
 
 setUp()
